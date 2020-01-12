@@ -1,0 +1,22 @@
+---
+- name: Ensure dependencies are installed (Ubuntu).
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg-agent
+      - software-properties-common
+    state: present
+
+- name: Add EMQX apt key.
+  apt_key:
+    url: https://repos.emqx.io/gpg.pub
+    id: 3E640D53
+    state: present
+
+- name: Add EMQX repository.
+  apt_repository:
+    repo: "deb [arch=amd64] https://repos.emqx.io/emqx-ce/deb/ubuntu/ {{ ansible_distribution_release }} stable"
+    state: present
+    filename: emqx
+    update_cache: true

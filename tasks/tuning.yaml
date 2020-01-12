@@ -1,0 +1,16 @@
+---
+- name: Manage entries in sysctl.conf
+  sysctl:
+    name: "{{ item.key }}"
+    value: "{{ item.value }}"
+    sysctl_set: yes
+    reload: yes
+  with_dict: "{{ emqx_sysctl_config }}"
+
+- name: Modify Linux PAM limits
+  pam_limits:
+    domain: "{{ item.value.domain }}"
+    limit_type: "{{ item.value.limit_type }}"
+    limit_item: "{{ item.value.limit_item }}"
+    value: "{{ item.value.value }}"
+  with_dict: "{{ emqx_pam_limits_config }}"

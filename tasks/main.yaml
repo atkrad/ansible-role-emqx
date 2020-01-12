@@ -1,0 +1,11 @@
+- include: ubuntu.yaml
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Install EMQX.
+  package:
+    name: "emqx={{ emqx_version }}"
+    state: present
+  notify: restart emqx
+
+- include: tuning.yaml
+  when: emqx_tuning_enabled == 'yes'
